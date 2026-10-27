@@ -1,0 +1,436 @@
+{
+  "paths": [
+    {
+      "path": "/robots.txt",
+      "probe": "robots",
+      "weight": 1.0,
+      "mandatory": true,
+      "description": "Crawler directives and accidental path disclosure"
+    },
+    {
+      "path": "/sitemap.xml",
+      "probe": "sitemap",
+      "weight": 1.0,
+      "mandatory": true,
+      "description": "Published URL inventory"
+    },
+    {
+      "path": "/.well-known/security.txt",
+      "probe": "security_txt",
+      "weight": 0.85,
+      "mandatory": true,
+      "description": "Vulnerability disclosure contact"
+    },
+    {
+      "path": "/.git/HEAD",
+      "probe": "git",
+      "weight": 1.0,
+      "mandatory": true,
+      "severity": "high",
+      "category": "source_exposure",
+      "title": "Exposed Git repository metadata",
+      "remediation": "Block access to .git/ at the web server or reverse proxy, purge the directory from the deployed artifact, and rotate any secrets that were committed."
+    },
+    {
+      "path": "/.git/config",
+      "probe": "git_config",
+      "weight": 0.95,
+      "mandatory": true,
+      "severity": "high",
+      "category": "source_exposure",
+      "title": "Exposed Git configuration",
+      "remediation": "Block .git/ at the edge, redeploy a clean artifact, and review commit history for credentials."
+    },
+    {
+      "path": "/.env",
+      "probe": "env",
+      "weight": 1.0,
+      "mandatory": true,
+      "severity": "high",
+      "category": "secret_exposure",
+      "title": "Exposed environment file",
+      "remediation": "Remove the file from the web root, block dotfiles, and rotate every credential it contained."
+    },
+    {
+      "path": "/.env.local",
+      "probe": "env",
+      "weight": 0.9,
+      "mandatory": false,
+      "severity": "high",
+      "category": "secret_exposure",
+      "title": "Exposed local environment file",
+      "remediation": "Remove the file from the web root, block dotfiles, and rotate every credential it contained."
+    },
+    {
+      "path": "/.env.production",
+      "probe": "env",
+      "weight": 0.9,
+      "mandatory": false,
+      "severity": "high",
+      "category": "secret_exposure",
+      "title": "Exposed production environment file",
+      "remediation": "Remove the file from the web root, block dotfiles, and rotate every credential it contained."
+    },
+    {
+      "path": "/.DS_Store",
+      "probe": "ds_store",
+      "weight": 0.75,
+      "mandatory": true,
+      "severity": "low",
+      "category": "information_disclosure",
+      "title": "Exposed macOS metadata file",
+      "remediation": "Remove .DS_Store files from deployment artifacts and block dotfiles at the edge."
+    },
+    {
+      "path": "/server-status",
+      "probe": "server_status",
+      "weight": 0.85,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "information_disclosure",
+      "title": "Apache server-status is exposed",
+      "remediation": "Restrict /server-status to localhost or remove mod_status from the public virtual host."
+    },
+    {
+      "path": "/phpinfo.php",
+      "probe": "phpinfo",
+      "weight": 0.8,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "information_disclosure",
+      "title": "phpinfo() output is exposed",
+      "remediation": "Delete phpinfo scripts from production and review the output for environment secrets."
+    },
+    {
+      "path": "/actuator/env",
+      "probe": "actuator",
+      "weight": 0.9,
+      "mandatory": false,
+      "severity": "high",
+      "category": "secret_exposure",
+      "title": "Spring Boot actuator environment is exposed",
+      "remediation": "Restrict actuator endpoints, disable /env, and rotate any exposed configuration values."
+    },
+    {
+      "path": "/actuator",
+      "probe": "actuator_index",
+      "weight": 0.75,
+      "mandatory": false,
+      "severity": "low",
+      "category": "information_disclosure",
+      "title": "Spring Boot actuator index is exposed",
+      "remediation": "Limit actuator exposure to the management network and require authentication."
+    },
+    {
+      "path": "/swagger-ui.html",
+      "probe": "swagger",
+      "weight": 0.8,
+      "mandatory": false,
+      "severity": "low",
+      "category": "information_disclosure",
+      "title": "API documentation is publicly reachable",
+      "remediation": "Require authentication for API documentation or publish it only in non-production environments."
+    },
+    {
+      "path": "/v3/api-docs",
+      "probe": "swagger",
+      "weight": 0.75,
+      "mandatory": false,
+      "severity": "low",
+      "category": "information_disclosure",
+      "title": "OpenAPI description is publicly reachable",
+      "remediation": "Restrict API descriptions to trusted networks or require authentication."
+    },
+    {
+      "path": "/swagger.json",
+      "probe": "swagger",
+      "weight": 0.65,
+      "mandatory": false,
+      "severity": "low",
+      "category": "information_disclosure",
+      "title": "Swagger description is publicly reachable",
+      "remediation": "Restrict API descriptions to trusted networks or require authentication."
+    },
+    {
+      "path": "/admin",
+      "probe": "admin",
+      "weight": 0.9,
+      "mandatory": true,
+      "severity": "low",
+      "category": "administrative_surface",
+      "title": "Administrative interface is reachable",
+      "remediation": "Put administrative interfaces behind SSO, network allow-lists, and rate limiting; do not rely on an unguessable URL."
+    },
+    {
+      "path": "/login",
+      "probe": "admin",
+      "weight": 0.8,
+      "mandatory": false,
+      "severity": "info",
+      "category": "administrative_surface",
+      "title": "Authentication portal is reachable",
+      "remediation": "Ensure the portal enforces MFA, rate limiting, and a patched authentication stack."
+    },
+    {
+      "path": "/manager/html",
+      "probe": "admin",
+      "weight": 0.8,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "administrative_surface",
+      "title": "Tomcat Manager is reachable",
+      "remediation": "Restrict /manager to trusted networks, remove default accounts, and require strong authentication."
+    },
+    {
+      "path": "/wp-login.php",
+      "probe": "admin",
+      "weight": 0.7,
+      "mandatory": false,
+      "severity": "info",
+      "category": "administrative_surface",
+      "title": "WordPress login is reachable",
+      "remediation": "Enforce MFA, rate limiting, and a Web Application Firewall rule for wp-login.php."
+    },
+    {
+      "path": "/backup.zip",
+      "probe": "backup",
+      "weight": 0.85,
+      "mandatory": false,
+      "severity": "high",
+      "category": "data_exposure",
+      "title": "Backup archive is publicly downloadable",
+      "remediation": "Remove backup archives from the web root, store them in encrypted object storage, and review access logs."
+    },
+    {
+      "path": "/backup.tar.gz",
+      "probe": "backup",
+      "weight": 0.8,
+      "mandatory": false,
+      "severity": "high",
+      "category": "data_exposure",
+      "title": "Backup archive is publicly downloadable",
+      "remediation": "Remove backup archives from the web root, store them in encrypted object storage, and review access logs."
+    },
+    {
+      "path": "/www.zip",
+      "probe": "backup",
+      "weight": 0.75,
+      "mandatory": false,
+      "severity": "high",
+      "category": "data_exposure",
+      "title": "Website archive is publicly downloadable",
+      "remediation": "Remove archives from the web root and audit the exposed content."
+    },
+    {
+      "path": "/db.sql",
+      "probe": "backup",
+      "weight": 0.8,
+      "mandatory": false,
+      "severity": "high",
+      "category": "data_exposure",
+      "title": "Database dump is publicly downloadable",
+      "remediation": "Remove the dump, rotate database credentials, and review for regulated data exposure."
+    },
+    {
+      "path": "/dump.sql",
+      "probe": "backup",
+      "weight": 0.75,
+      "mandatory": false,
+      "severity": "high",
+      "category": "data_exposure",
+      "title": "Database dump is publicly downloadable",
+      "remediation": "Remove the dump, rotate database credentials, and review for regulated data exposure."
+    },
+    {
+      "path": "/backup/",
+      "probe": "directory",
+      "weight": 0.85,
+      "mandatory": true,
+      "severity": "medium",
+      "category": "data_exposure",
+      "title": "Directory listing is enabled",
+      "remediation": "Disable auto-indexing and require authentication for file repositories."
+    },
+    {
+      "path": "/backups/",
+      "probe": "directory",
+      "weight": 0.8,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "data_exposure",
+      "title": "Directory listing is enabled",
+      "remediation": "Disable auto-indexing and require authentication for file repositories."
+    },
+    {
+      "path": "/uploads/",
+      "probe": "directory",
+      "weight": 0.65,
+      "mandatory": false,
+      "severity": "low",
+      "category": "information_disclosure",
+      "title": "Upload directory listing is enabled",
+      "remediation": "Disable auto-indexing and block execution of uploaded files."
+    },
+    {
+      "path": "/files/",
+      "probe": "directory",
+      "weight": 0.6,
+      "mandatory": false,
+      "severity": "low",
+      "category": "information_disclosure",
+      "title": "File directory listing is enabled",
+      "remediation": "Disable auto-indexing and require authorization for file downloads."
+    },
+    {
+      "path": "/.svn/entries",
+      "probe": "svn",
+      "weight": 0.65,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "source_exposure",
+      "title": "Exposed Subversion metadata",
+      "remediation": "Block .svn/ at the edge and redeploy a clean artifact."
+    },
+    {
+      "path": "/.hg/requires",
+      "probe": "hg",
+      "weight": 0.55,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "source_exposure",
+      "title": "Exposed Mercurial metadata",
+      "remediation": "Block .hg/ at the edge and redeploy a clean artifact."
+    },
+    {
+      "path": "/Dockerfile",
+      "probe": "source",
+      "weight": 0.5,
+      "mandatory": false,
+      "severity": "low",
+      "category": "source_exposure",
+      "title": "Container build file is exposed",
+      "remediation": "Exclude build files from deployment artifacts and block source extensions at the edge."
+    },
+    {
+      "path": "/docker-compose.yml",
+      "probe": "source",
+      "weight": 0.55,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "source_exposure",
+      "title": "Container composition file is exposed",
+      "remediation": "Remove deployment manifests from the web root and rotate any embedded credentials."
+    },
+    {
+      "path": "/package.json",
+      "probe": "source",
+      "weight": 0.4,
+      "mandatory": false,
+      "severity": "info",
+      "category": "information_disclosure",
+      "title": "Application package manifest is exposed",
+      "remediation": "Serve only built assets and block package manifests at the edge."
+    },
+    {
+      "path": "/composer.json",
+      "probe": "source",
+      "weight": 0.45,
+      "mandatory": false,
+      "severity": "info",
+      "category": "information_disclosure",
+      "title": "Composer manifest is exposed",
+      "remediation": "Serve only public assets and block composer files at the edge."
+    },
+    {
+      "path": "/metrics",
+      "probe": "metrics",
+      "weight": 0.5,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "information_disclosure",
+      "title": "Metrics endpoint is publicly reachable",
+      "remediation": "Restrict metrics to the monitoring network and require authentication."
+    },
+    {
+      "path": "/config.json",
+      "probe": "config",
+      "weight": 0.65,
+      "mandatory": false,
+      "severity": "medium",
+      "category": "information_disclosure",
+      "title": "Configuration document is publicly reachable",
+      "remediation": "Remove client configuration secrets and restrict server configuration documents."
+    },
+    {
+      "path": "/crossdomain.xml",
+      "probe": "generic",
+      "weight": 0.35,
+      "mandatory": false,
+      "severity": "info",
+      "category": "information_disclosure",
+      "title": "Legacy cross-domain policy is published",
+      "remediation": "Review the allow-list and remove the policy if Flash/Silverlight clients no longer exist."
+    },
+    {
+      "path": "/.well-known/openid-configuration",
+      "probe": "generic",
+      "weight": 0.4,
+      "mandatory": false,
+      "severity": "info",
+      "category": "identity_surface",
+      "title": "OpenID Connect configuration is published",
+      "remediation": "Review the advertised endpoints and ensure only intended flows are enabled."
+    },
+    {
+      "path": "/graphql",
+      "probe": "generic",
+      "weight": 0.4,
+      "mandatory": false,
+      "severity": "info",
+      "category": "api_surface",
+      "title": "GraphQL endpoint is reachable",
+      "remediation": "Require authentication, disable introspection in production where appropriate, and enforce query limits."
+    },
+    {
+      "path": "/api",
+      "probe": "generic",
+      "weight": 0.35,
+      "mandatory": false,
+      "severity": "info",
+      "category": "api_surface",
+      "title": "API root is reachable",
+      "remediation": "Require authentication and publish only intended API routes."
+    },
+    {
+      "path": "/health",
+      "probe": "generic",
+      "weight": 0.25,
+      "mandatory": false,
+      "severity": "info",
+      "category": "information_disclosure",
+      "title": "Health endpoint is public",
+      "remediation": "Return minimal health data and restrict detailed diagnostics to the operational network."
+    },
+    {
+      "path": "/healthz",
+      "probe": "generic",
+      "weight": 0.25,
+      "mandatory": false,
+      "severity": "info",
+      "category": "information_disclosure",
+      "title": "Health endpoint is public",
+      "remediation": "Return minimal health data and restrict detailed diagnostics to the operational network."
+    }
+  ],
+  "wordlist": [
+    "www", "mail", "api", "dev", "staging", "test", "admin", "portal", "vpn", "remote",
+    "blog", "shop", "store", "app", "apps", "auth", "sso", "id", "login", "dashboard",
+    "cdn", "static", "assets", "img", "media", "files", "download", "docs", "wiki", "support",
+    "help", "status", "monitor", "grafana", "kibana", "jenkins", "git", "gitlab", "ci", "jira",
+    "confluence", "nexus", "registry", "docker", "k8s", "kubernetes", "db", "sql", "mysql",
+    "postgres", "redis", "mongo", "backup", "backups", "old", "new", "demo", "sandbox", "preprod",
+    "prod", "uat", "qa", "internal", "intranet", "extranet", "ftp", "sftp", "smtp", "mx",
+    "autodiscover", "owa", "exchange", "sharepoint", "meet", "analytics", "m", "mobile", "pay",
+    "payment", "billing", "secure", "oauth", "openid", "idp", "adfs", "dc", "ldap", "ns1", "ns2"
+  ]
+}

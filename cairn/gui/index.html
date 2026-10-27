@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Cairn · Surface Intelligence</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="boot" id="boot">
+    <div class="boot-mark" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><path d="M24 5 37 18 24 31 11 18Z"/><path d="M24 19 35 30 24 41 13 30Z"/></svg>
+    </div>
+    <div class="boot-text">CAIRN<span>calibrating the surface</span></div>
+  </div>
+  <div id="app" class="shell" hidden></div>
+  <div id="modal-root"></div>
+  <div id="drawer-root"></div>
+  <div id="toast-root" class="toast-root" aria-live="polite"></div>
+  <script nonce="__CAIRN_NONCE__">
+    window.CAIRN_TOKEN = __CAIRN_TOKEN__;
+    window.CAIRN_VERSION = "__CAIRN_VERSION__";
+  </script>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
