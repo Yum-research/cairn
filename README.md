@@ -31,7 +31,7 @@ defend:
   expiring scope manifest. The guard re-resolves DNS per connection, denies
   metadata and link-local addresses, requires explicit scope for private
   targets, and writes a decision to the audit chain.
-- **Evidence, not vibes.** Findings reference stored evidence with SHA-256
+- **Evidence, not guesses.** Findings reference stored evidence with SHA-256
   hash chains. The audit log is independently verifiable, and secrets are
   redacted before they reach the database.
 - **Calibrated confidence.** A transparent logistic baseline gives way to a
