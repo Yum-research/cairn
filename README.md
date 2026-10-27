@@ -1,5 +1,7 @@
 # Cairn
 
+[![CI](https://github.com/Yum-research/cairn/actions/workflows/ci.yml/badge.svg)](https://github.com/Yum-research/cairn/actions/workflows/ci.yml)
+
 **Evidence-first attack surface intelligence for authorized assessments.**
 
 Cairn is an end-to-end reconnaissance and enumeration workspace. It discovers
